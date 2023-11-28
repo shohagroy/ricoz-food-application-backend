@@ -1,5 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
+import mainRoute from "./app/routes";
+import globalErrorHandler from "./app/middlewares/globalErrorHandelat";
 
 const app = express();
 
@@ -14,6 +16,8 @@ app.use(
 );
 
 app.use(express.json());
+app.use("/api/v1", mainRoute);
+app.use(globalErrorHandler);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("ricoz food application server is running...");
