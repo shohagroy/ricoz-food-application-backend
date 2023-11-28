@@ -58,8 +58,24 @@ const findALl = async (id: string): Promise<IUser[]> => {
   return result;
 };
 
+const updateById = async (
+  id: string,
+  data: Partial<IUser>
+): Promise<IUser | null> => {
+  const result = await User.findByIdAndUpdate(
+    id,
+    {
+      $set: data,
+    },
+    { new: true }
+  );
+
+  return result;
+};
+
 export const userService = {
   create,
   login,
   findALl,
+  updateById,
 };

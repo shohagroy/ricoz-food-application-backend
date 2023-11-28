@@ -57,8 +57,22 @@ const getAllUser = catchAsync(
   }
 );
 
+const updateUserInfo = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const response = await userService.updateById(req?.user?._id, req.body);
+
+    sendResponse<Partial<IUser>>(res, {
+      statusCode: status.OK,
+      success: true,
+      message: "Users Get Successfully!",
+      data: response,
+    });
+  }
+);
+
 export const userController = {
   createUser,
   loginUser,
   getAllUser,
+  updateUserInfo,
 };
