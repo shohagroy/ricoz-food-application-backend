@@ -7,6 +7,21 @@ const create = async (payload: ICategory): Promise<ICategory> => {
   return response;
 };
 
+const updateById = async (
+  id: string,
+  payload: Partial<ICategory>
+): Promise<ICategory | null> => {
+  const result = await Category.findByIdAndUpdate(
+    id,
+    {
+      $set: payload,
+    },
+    { new: true }
+  );
+
+  return result;
+};
+
 const findByTittle = async (tittle: string): Promise<ICategory | null> => {
   const response = await Category.findOne({
     tittle,
@@ -18,4 +33,5 @@ const findByTittle = async (tittle: string): Promise<ICategory | null> => {
 export const categoryService = {
   create,
   findByTittle,
+  updateById,
 };

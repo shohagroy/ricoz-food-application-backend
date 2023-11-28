@@ -27,6 +27,28 @@ const create = catchAsync(
   }
 );
 
+const updateCategory = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+
+    const isCategoryExist = await categoryService.findByTittle(req.body.tittle);
+
+    if (isCategoryExist) {
+      throw new ApiError(status.BAD_REQUEST, "Category dose not already");
+    }
+
+    const response = await categoryService.updateById(id, req.body);
+
+    sendResponse<Partial<ICategory>>(res, {
+      statusCode: status.OK,
+      success: true,
+      message: "Category Update Successfully!",
+      data: response,
+    });
+  }
+);
+
 export const categoryController = {
   create,
+  updateCategory,
 };

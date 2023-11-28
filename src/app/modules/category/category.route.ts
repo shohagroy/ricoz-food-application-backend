@@ -12,4 +12,11 @@ router
     categoryController.create
   );
 
+router
+  .route("/:id")
+  .patch(
+    auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+    categoryController.updateCategory
+  );
+
 export const categoryRoute = router;
