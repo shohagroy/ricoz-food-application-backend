@@ -10,13 +10,19 @@ const createUser = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
     const response = await userService.create(req.body);
 
-    response.password = "";
+    const { accessToken, user } = response;
+    const cookieOptions = {
+      secure: config.node_env === "production",
+      httpOnly: true,
+    };
+    res.cookie("accessToken", accessToken, cookieOptions);
 
+    user.password = "";
     sendResponse<Partial<IUser>>(res, {
       statusCode: status.OK,
       success: true,
       message: "User created successfully!",
-      data: response,
+      data: user,
     });
   }
 );
