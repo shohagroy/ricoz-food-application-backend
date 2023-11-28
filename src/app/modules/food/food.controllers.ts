@@ -9,10 +9,37 @@ const create = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
     const response = await foodService.create(req.body);
 
-    sendResponse<Partial<IFood>>(res, {
+    sendResponse<IFood>(res, {
       statusCode: status.OK,
       success: true,
       message: "Food Create Successfully!",
+      data: response,
+    });
+  }
+);
+
+const getALlFoods = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const response = await foodService.findAll();
+
+    sendResponse<IFood[]>(res, {
+      statusCode: status.OK,
+      success: true,
+      message: "Foods get Successfully!",
+      data: response,
+    });
+  }
+);
+
+const getById = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+    const response = await foodService.findById(id);
+
+    sendResponse<IFood>(res, {
+      statusCode: status.OK,
+      success: true,
+      message: "Food get Successfully!",
       data: response,
     });
   }
@@ -24,7 +51,7 @@ const deleteFood = catchAsync(
 
     const response = await foodService.deleteById(id);
 
-    sendResponse<Partial<IFood>>(res, {
+    sendResponse<IFood>(res, {
       statusCode: status.OK,
       success: true,
       message: "Food delete Successfully!",
@@ -33,7 +60,25 @@ const deleteFood = catchAsync(
   }
 );
 
+const updateFood = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+
+    const response = await foodService.updateById(id, req.body);
+
+    sendResponse<IFood>(res, {
+      statusCode: status.OK,
+      success: true,
+      message: "Food update Successfully!",
+      data: response,
+    });
+  }
+);
+
 export const foodController = {
   create,
+  getALlFoods,
+  getById,
   deleteFood,
+  updateFood,
 };
