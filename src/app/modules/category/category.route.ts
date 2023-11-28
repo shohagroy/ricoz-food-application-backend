@@ -5,6 +5,8 @@ import { categoryController } from "./category.controllers";
 
 const router = express.Router();
 
+router.route("/").get(categoryController.getAllCategories);
+
 router
   .route("/create")
   .post(
@@ -17,6 +19,10 @@ router
   .patch(
     auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
     categoryController.updateCategory
+  )
+  .delete(
+    auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+    categoryController.deleteCategory
   );
 
 export const categoryRoute = router;

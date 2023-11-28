@@ -27,19 +27,26 @@ const create = catchAsync(
   }
 );
 
+const getAllCategories = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const response = await categoryService.findAll();
+
+    sendResponse<Partial<ICategory[]>>(res, {
+      statusCode: status.OK,
+      success: true,
+      message: "Categories Get Successfully!",
+      data: response,
+    });
+  }
+);
+
 const updateCategory = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
 
-    const isCategoryExist = await categoryService.findByTittle(req.body.tittle);
-
-    if (isCategoryExist) {
-      throw new ApiError(status.BAD_REQUEST, "Category dose not already");
-    }
-
     const response = await categoryService.updateById(id, req.body);
 
-    sendResponse<Partial<ICategory>>(res, {
+    sendResponse<ICategory>(res, {
       statusCode: status.OK,
       success: true,
       message: "Category Update Successfully!",
@@ -48,7 +55,24 @@ const updateCategory = catchAsync(
   }
 );
 
+const deleteCategory = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+
+    const response = await categoryService.deleteById(id);
+
+    sendResponse<ICategory>(res, {
+      statusCode: status.OK,
+      success: true,
+      message: "Category deleted Successfully!",
+      data: response,
+    });
+  }
+);
+
 export const categoryController = {
   create,
   updateCategory,
+  getAllCategories,
+  deleteCategory,
 };
