@@ -15,3 +15,11 @@ export interface IFood extends Document {
 }
 
 export type IFoodModel = Model<IFood, Record<string, unknown>>;
+
+export type IFoodFilters = {
+  searchTerm?: string;
+  sortBy?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  category?: string;
+};
