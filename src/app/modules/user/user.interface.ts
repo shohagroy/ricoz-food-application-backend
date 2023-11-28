@@ -14,7 +14,10 @@ export interface IUser extends Document {
 export interface IUserModel extends Model<IUser, {}, {}> {
   isUserExist(
     email: string
-  ): Promise<Pick<IUser, "_id" | "password" | "role" | "email"> | null>;
+  ): Promise<Pick<
+    IUser,
+    "_id" | "name" | "password" | "role" | "email"
+  > | null>;
   isPasswordMatched(
     givenPassword: string,
     savedPassword: string

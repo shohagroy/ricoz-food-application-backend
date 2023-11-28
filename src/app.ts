@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import mainRoute from "./app/routes";
 import globalErrorHandler from "./app/middlewares/globalErrorHandelat";
+import cookiepParser from "cookie-parser";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(
 );
 
 app.use(express.json());
+app.use(cookiepParser());
 app.use("/api/v1", mainRoute);
 app.use(globalErrorHandler);
 
